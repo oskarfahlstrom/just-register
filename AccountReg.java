@@ -57,10 +57,8 @@ public class AccountReg extends JComponent {
 		firstName = new JLabel("First Name:");
 		lastName = new JLabel("Last Name:");
 
-		accepted = new ImageIcon(getClass().getResource(
-				"/ourAccountRegister/Images/Valid.png"));
-		required = new ImageIcon(getClass().getResource(
-				"/ourAccountRegister/Images/Invalid.png"));
+		accepted = new ImageIcon(getClass().getResource("/Images/Valid.png"));
+		required = new ImageIcon(getClass().getResource("/Images/Invalid.png"));
 
 		emailImage = new JLabel(required);
 		passwordImage = new JLabel(required);
