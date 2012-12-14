@@ -1,7 +1,7 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EmailValidator {
+public class EmailValidator implements ValidatorInterface {
 
 	private Pattern pattern;
 	private Matcher matcher;
@@ -14,7 +14,7 @@ public class EmailValidator {
 	}
 
 	/**
-	 * Validate String s with regular expression
+	 * Validate String s with regular expression.
 	 * 
 	 * @param s
 	 * @return true if String s is valid, false otherwise

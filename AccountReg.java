@@ -32,11 +32,7 @@ public class AccountReg extends JComponent {
 	static boolean passwordIsValid;
 	static boolean checkBoxIsChecked;
 
-	public static boolean setUpEnabled() {
-		if (emailIsValid && passwordIsValid && checkBoxIsChecked)
-			return true;
-		return false;
-	}
+	RegistrationComplete rc;
 
 	static JLabel email, password, firstName, lastName, emailNotes,
 			passwordNotes;
@@ -50,8 +46,10 @@ public class AccountReg extends JComponent {
 	static JPasswordField passwordField;
 	static JTextField emailField;
 
-	public AccountReg() {
+	public AccountReg(RegistrationComplete rc) {
 		// INITIALIZE COMPONENTS //
+		this.rc = rc;
+
 		email = new JLabel("Email Adress:");
 		password = new JLabel("Password:");
 		firstName = new JLabel("First Name:");
@@ -101,7 +99,6 @@ public class AccountReg extends JComponent {
 		signUpListener(signUp);
 
 		// Creates the Group layout.
-		// TODO: Find a better solution for the layout section.
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
 
@@ -109,6 +106,11 @@ public class AccountReg extends JComponent {
 		layoutManager(layout);
 	}
 
+	/**
+	 * Set up the listener(s) for the email input field.
+	 * 
+	 * @param emailField
+	 */
 	public void emailFieldListener(final JTextField emailField) {
 		emailField.addKeyListener(new KeyListener() {
 
@@ -123,7 +125,7 @@ public class AccountReg extends JComponent {
 				if (emailValidator.validate(emailField.getText())) {
 					emailIsValid = true;
 					emailImage.setIcon(accepted);
-					if (setUpEnabled())
+					if (rc.signUpEnabled())
 						signUp.setEnabled(true);
 					return;
 				}
@@ -138,13 +140,16 @@ public class AccountReg extends JComponent {
 		});
 	}
 
+	/**
+	 * Set up the listener(s) for the password input field.
+	 * 
+	 * @param passwordField
+	 */
 	public void passwordFieldListener(final JPasswordField passwordField) {
 		passwordField.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				// TODO: Should there be nothing here?
-				// Should keyReleased() call on keyTyped() instead?
 			}
 
 			@SuppressWarnings("deprecation")
@@ -156,7 +161,7 @@ public class AccountReg extends JComponent {
 					// System.out.println(passwordField.getText());
 					passwordIsValid = true;
 					passwordImage.setIcon(accepted);
-					if (setUpEnabled())
+					if (rc.signUpEnabled())
 						signUp.setEnabled(true);
 					return;
 				}
@@ -171,6 +176,11 @@ public class AccountReg extends JComponent {
 		});
 	}
 
+	/**
+	 * Set up the listener to keep track of the check box.
+	 * 
+	 * @param checkBox
+	 */
 	public void checkBoxListener(final JCheckBox checkBox) {
 		checkBox.addChangeListener(new ChangeListener() {
 
@@ -178,7 +188,7 @@ public class AccountReg extends JComponent {
 			public void stateChanged(ChangeEvent e) {
 				if (checkBox.isSelected()) {
 					checkBoxIsChecked = true;
-					if (setUpEnabled()) {
+					if (rc.signUpEnabled()) {
 						signUp.setEnabled(true);
 						return;
 					}
@@ -191,6 +201,12 @@ public class AccountReg extends JComponent {
 		});
 	}
 
+	/**
+	 * Set up what happens when sign up button is clicked. Right now, default is
+	 * to close the program.
+	 * 
+	 * @param signUp
+	 */
 	public void signUpListener(final JButton signUp) {
 		signUp.addActionListener(new ActionListener() {
 

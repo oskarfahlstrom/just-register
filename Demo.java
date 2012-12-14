@@ -14,7 +14,18 @@ import javax.swing.WindowConstants;
 public class Demo extends JFrame {
 
 	public Demo() {
-		JScrollPane scroll = new JScrollPane(new AccountReg());
+		RegistrationComplete rc = new RegistrationComplete() {
+
+			@Override
+			public boolean signUpEnabled() {
+				if (AccountReg.emailIsValid && AccountReg.passwordIsValid
+						&& AccountReg.checkBoxIsChecked)
+					return true;
+				return false;
+			}
+		};
+
+		JScrollPane scroll = new JScrollPane(new AccountReg(rc));
 
 		// JScrollPane scroll = new JScrollPane(
 		// new AccountRegisterBase.AccountReg().getContentPane());
