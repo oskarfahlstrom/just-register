@@ -1,27 +1,16 @@
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class EmailValidator implements ValidatorInterface {
-
-	private Pattern pattern;
-	private Matcher matcher;
-
-	private static final String ALLOWED_CHARACTERS = "^[_a-zA-Z0-9-\\+]+(\\.[_a-zA-Z0-9-]+)*@"
-			+ "[a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)*(\\.[a-zA-Z]{2,})$";
-
-	public EmailValidator() {
-		pattern = Pattern.compile(ALLOWED_CHARACTERS);
-	}
+/**
+ * Created on Dec 11, 2012, 4:49:12 AM
+ * 
+ * @author Jacob Bergvall, Oskar Fahlström
+ */
+public interface EmailValidator {
 
 	/**
-	 * Validate String s with regular expression.
+	 * Takes in a string as agrument and returns true if it is a valid email
+	 * adress, false if it isn't.
 	 * 
 	 * @param s
-	 * @return true if String s is valid, false otherwise
+	 * @return boolean
 	 */
-	public boolean validate(final String s) {
-
-		matcher = pattern.matcher(s);
-		return matcher.matches();
-	}
+	public boolean validate(String s);
 }

@@ -1,3 +1,6 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -14,6 +17,11 @@ import javax.swing.WindowConstants;
 public class Demo extends JFrame {
 
 	public Demo() {
+		/*
+		 * In our demo the sign up button is enabled when a valid email, a
+		 * password longer than 6 characters has been entered and the check box
+		 * has been checked.
+		 */
 		RegistrationComplete rc = new RegistrationComplete() {
 
 			@Override
@@ -25,11 +33,30 @@ public class Demo extends JFrame {
 			}
 		};
 
-		JScrollPane scroll = new JScrollPane(new AccountReg(rc));
+		/*
+		 * We create a new email validator that takes in a string and matches it
+		 * to our set pattern for what an email adress should look like. Returns
+		 * true if the string matches, false if it doesn't.
+		 */
+		EmailValidator ev = new EmailValidator() {
 
-		// JScrollPane scroll = new JScrollPane(
-		// new AccountRegisterBase.AccountReg().getContentPane());
+			@Override
+			public boolean validate(String s) {
+				Pattern pattern;
+				Matcher matcher;
 
+				String ALLOWED_FORMAT = ("^[_a-zA-Z0-9-\\+]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)*(\\.[a-zA-Z]{2,})$");
+
+				pattern = Pattern.compile(ALLOWED_FORMAT);
+
+				matcher = pattern.matcher(s);
+				return matcher.matches();
+			}
+		};
+
+		JScrollPane scroll = new JScrollPane(new AccountReg(ev, rc));
+
+		// WINDOW SETTINGS //
 		add(scroll);
 		setTitle("Account Register");
 		setVisible(true);
@@ -37,6 +64,9 @@ public class Demo extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * The standard main method for thread safety.
+	 */
 	public static void main(String args[]) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

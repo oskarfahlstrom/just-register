@@ -32,22 +32,27 @@ public class AccountReg extends JComponent {
 	static boolean passwordIsValid;
 	static boolean checkBoxIsChecked;
 
+	EmailValidator ev;
 	RegistrationComplete rc;
 
 	static JLabel email, password, firstName, lastName, emailNotes,
-			passwordNotes;
-	static JTextField firstNameField, lastNameField;
-
-	EmailValidator emailValidator;
+			passwordNotes, emailImage, passwordImage;
+	static JTextField emailField, firstNameField, lastNameField;
 	static JButton signUp;
 	static JCheckBox checkBox;
 	static ImageIcon accepted, required;
-	static JLabel emailImage, passwordImage;
 	static JPasswordField passwordField;
-	static JTextField emailField;
 
-	public AccountReg(RegistrationComplete rc) {
+	/**
+	 * A simple program that lets you register an account or sign up for a
+	 * service.
+	 * 
+	 * @param ev
+	 * @param rc
+	 */
+	public AccountReg(EmailValidator ev, RegistrationComplete rc) {
 		// INITIALIZE COMPONENTS //
+		this.ev = ev;
 		this.rc = rc;
 
 		email = new JLabel("Email Adress:");
@@ -71,6 +76,7 @@ public class AccountReg extends JComponent {
 
 		checkBox = new JCheckBox("I accept all your terms.");
 		signUp = new JButton("Sign up");
+		signUp.setEnabled(false);
 
 		// FONTS AND LOOKS //
 		Font cursiveFont = new Font("Arial", Font.ITALIC, 12);
@@ -80,17 +86,12 @@ public class AccountReg extends JComponent {
 		passwordNotes.setForeground(Color.GRAY);
 		passwordNotes.setFont(cursiveFont);
 
-		signUp.setEnabled(false);
-
-		// Default size of our text fields. Using linkSize(), we set all
-		// text fields to this size.
+		// Set the default size of our text fields. Using linkSize() later on we
+		// set all text fields to this size.
 		emailField.setPreferredSize(new Dimension(250, 20));
 
 		// Remove unwanted default border of the check box.
 		checkBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-		// Creates a new email validator from the EmailValidator class.
-		emailValidator = new EmailValidator();
 
 		// ADD LISTENERS //
 		emailFieldListener(emailField);
@@ -98,16 +99,14 @@ public class AccountReg extends JComponent {
 		checkBoxListener(checkBox);
 		signUpListener(signUp);
 
-		// Creates the Group layout.
+		// Create the layout.
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
-
-		// New method that does the GroupLayout stuff.
 		layoutManager(layout);
 	}
 
 	/**
-	 * Set up the listener(s) for the email input field.
+	 * Set up the listener for the email input field.
 	 * 
 	 * @param emailField
 	 */
@@ -116,13 +115,11 @@ public class AccountReg extends JComponent {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				// TODO: Should there be nothing here?
-				// Should keyReleased() call on keyTyped() instead?
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (emailValidator.validate(emailField.getText())) {
+				if (ev.validate(emailField.getText())) {
 					emailIsValid = true;
 					emailImage.setIcon(accepted);
 					if (rc.signUpEnabled())
@@ -141,7 +138,7 @@ public class AccountReg extends JComponent {
 	}
 
 	/**
-	 * Set up the listener(s) for the password input field.
+	 * Set up the listener for the password input field.
 	 * 
 	 * @param passwordField
 	 */
@@ -157,8 +154,7 @@ public class AccountReg extends JComponent {
 			public void keyReleased(KeyEvent e) {
 				if (passwordField.getText().length() >= 6) {
 					// getPassword() will not work in this case since we want to
-					// check the length of the password.
-					// System.out.println(passwordField.getText());
+					// check the actual length of the password.
 					passwordIsValid = true;
 					passwordImage.setIcon(accepted);
 					if (rc.signUpEnabled())
@@ -202,8 +198,8 @@ public class AccountReg extends JComponent {
 	}
 
 	/**
-	 * Set up what happens when sign up button is clicked. Right now, default is
-	 * to close the program.
+	 * Set up what happens when sign up button is clicked. Default is to close
+	 * the program.
 	 * 
 	 * @param signUp
 	 */
@@ -219,11 +215,12 @@ public class AccountReg extends JComponent {
 	}
 
 	/**
-	 * Setting up the GroupLayout.
+	 * Set up the layout for the whole program.
 	 * 
 	 * @param layout
 	 */
 	public static void layoutManager(GroupLayout layout) {
+		// Add some gaps between the components.
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
@@ -236,6 +233,7 @@ public class AccountReg extends JComponent {
 		layout.linkSize(SwingConstants.VERTICAL, emailField, passwordField,
 				firstNameField, lastNameField);
 
+		// Set the main groups first to make the code easier to read.
 		GroupLayout.ParallelGroup hGroup = layout.createParallelGroup();
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
 
