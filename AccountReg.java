@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -97,7 +96,6 @@ public class AccountReg extends JComponent {
 		emailFieldListener(emailField);
 		passwordFieldListener(passwordField);
 		checkBoxListener(checkBox);
-		signUpListener(signUp);
 
 		// CREATE LAYOUT //
 		GroupLayout layout = new GroupLayout(this);
@@ -197,21 +195,30 @@ public class AccountReg extends JComponent {
 		});
 	}
 
-	/**
-	 * Set up what happens when sign up button is clicked. Default is to close
-	 * the program.
-	 * 
-	 * @param signUp
-	 */
-	public void signUpListener(final JButton signUp) {
-		signUp.addActionListener(new ActionListener() {
+	// /**
+	// * Set up what happens when sign up button is clicked. Default is to close
+	// * the program.
+	// *
+	// * @param signUp
+	// */
+	// public void signUpListener(final JButton signUp) {
+	// signUp.addActionListener(new ActionListener() {
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// System.out.println("Thank you for signing up!");
+	// System.exit(0);
+	// }
+	// });
+	// }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Thank you for signing up!");
-				System.exit(0);
-			}
-		});
+	/**
+	 * Signals the Demo-class when the sign up button has been clicked.
+	 * 
+	 * @param e
+	 */
+	public void addSignedUpListener(ActionListener e) {
+		signUp.addActionListener(e);
 	}
 
 	/**

@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,7 +59,19 @@ public class Demo extends JFrame {
 			}
 		};
 
-		JScrollPane scroll = new JScrollPane(new AccountReg(ev, rc));
+		AccountReg ar = new AccountReg(ev, rc);
+		ar.addSignedUpListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// When this is triggered you can send the information to a
+				// database or whatever you might prefer.
+				System.out.println("Congratulations!");
+				System.exit(0);
+			}
+		});
+
+		JScrollPane scroll = new JScrollPane(ar);
 
 		// WINDOW SETTINGS //
 		add(scroll);
