@@ -46,6 +46,9 @@ public class Demo extends JFrame {
 				Matcher matcher;
 
 				String ALLOWED_FORMAT = ("^[_a-zA-Z0-9-\\+]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)*(\\.[a-zA-Z]{2,})$");
+				// Simply edit the pattern if you only want to allow more
+				// specific email adresses. For example if it has to be a
+				// @student.liu.se adress for something University-related.
 
 				pattern = Pattern.compile(ALLOWED_FORMAT);
 

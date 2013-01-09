@@ -99,7 +99,7 @@ public class AccountReg extends JComponent {
 		checkBoxListener(checkBox);
 		signUpListener(signUp);
 
-		// Create the layout.
+		// CREATE LAYOUT //
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
 		layoutManager(layout);
